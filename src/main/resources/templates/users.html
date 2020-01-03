@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Users</title>
+        <meta charset="UTF-8">
+        <script type="text/javascript" src="../static/node_modules/jquery/dist/jquery.js" th:src="@{/node_modules/jquery/dist/jquery.js}"></script>
+        <script type="text/javascript" src="../static/js/thymeleaf.js" th:src="@{/js/thymeleaf.js}"></script>
+    </head>
+    <body>
+        <div class="showing">
+            <ul th:each="person: ${cs}">
+                <li th:text="|${person.name} has $${person.balance}!|"></li>
+            </ul>
+
+            <div>
+                <input placeholder="Enter the name of the account to query the balance" id="query-balance" style="width: 300px;">
+                <button onclick="getQueryInfo()">Query</button>
+            </div>
+            <p id="show-balance">Waiting for query</p>
+        </div>
+    </body>
+</html>

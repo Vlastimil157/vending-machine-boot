@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>hello</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" media="all" href="../static/css/style.css" th:href="@{/css/style.css}" />
+    </head>
+    <body>
+        <div class="showing">
+            <p th:text="${name}">name</p>
+            <p th:text="|Hello, ${name}!|">Hello, World!</p>
+        </div>
+    </body>
+</html>
