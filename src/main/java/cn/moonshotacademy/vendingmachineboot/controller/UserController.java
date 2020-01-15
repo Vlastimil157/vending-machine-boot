@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import cn.moonshotacademy.vendingmachineboot.dto.UserDAO;
-import cn.moonshotacademy.vendingmachineboot.model.UserCategory;
+import cn.moonshotacademy.vendingmachineboot.dao.UserDAO;
+import cn.moonshotacademy.vendingmachineboot.model.UserDTO;
 
 @Controller
 public class UserController {
@@ -17,7 +17,7 @@ public class UserController {
 
     @RequestMapping("/users")
     public String listCategory(Model m) {
-        List<UserCategory> cs = userDAO.findAll();
+        List<UserDTO> cs = userDAO.findAll();
 
         m.addAttribute("cs", cs);
 

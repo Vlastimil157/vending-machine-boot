@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.moonshotacademy.vendingmachineboot.dto.UserDAO;
-import cn.moonshotacademy.vendingmachineboot.model.UserCategory;
+import cn.moonshotacademy.vendingmachineboot.dao.UserDAO;
+import cn.moonshotacademy.vendingmachineboot.model.UserDTO;
 
 import java.util.List;
 
@@ -19,12 +19,12 @@ public class UserQueryController {
     UserDAO userDAO;
 
     @RequestMapping("/balance-query")
-    public List<UserCategory> balanceQuery(Model model, @RequestParam("name") String name) {
-        UserCategory user = new UserCategory();
+    public List<UserDTO> balanceQuery(Model model, @RequestParam("name") String name) {
+        UserDTO user = new UserDTO();
         user.setName(name);
         ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("name", ExampleMatcher.GenericPropertyMatchers.exact());
-        List<UserCategory> userList = userDAO.findAll(Example.of(user, exampleMatcher));
-        // List<UserCategory> userList = userDAO.findAllByName(name);
+        List<UserDTO> userList = userDAO.findAll(Example.of(user, exampleMatcher));
+        // List<UserDTO> userList = userDAO.findAllByName(name);
         return userList;
     }
 }

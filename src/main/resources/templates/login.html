@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Daniel's Vending Machine - Login</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" media="all" href="../static/css/login-style.css"
+        th:href="@{/css/login-style.css}">
+    <script type="text/javascript" src="../static/node_modules/jquery/dist/jquery.js"
+        th:src="@{/node_modules/jquery/dist/jquery.js}"></script>
+
+    <script type="text/javascript" src="../static/js/login.js" th:src="@{/js/login.js}"></script>
+</head>
+
+<body>
+    <form action="index.html" class="login-form">
+        <h1>Login</h1>
+
+        <div class="input-bar">
+            <input type="text" id="username">
+            <span data-placeholder="Username"></span>
+        </div>
+        <div class="input-bar">
+            <input type="password" id="password">
+            <span data-placeholder="Password"></span>
+        </div>
+
+        <input type="button" class="login-button" value="Login" onclick="sendLoginMsg()">
+        <input type="button" class="loading not-display" value="Loading...">
+
+        <div class="fail-msg not-display">Login Failed! Username or password incorrect.</div>
+        <div class="success-msg not-display">Login Success!</div>
+
+        <!-- <div class="bottom-text">
+                Don't have an account? <a href="#">Sign up</a>
+            </div> -->
+    </form>
+</body>
+
+</html>

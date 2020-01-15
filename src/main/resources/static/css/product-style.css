@@ -1,0 +1,26 @@
+#app {
+    font-family: Georgia, serif;
+}
+
+#header {
+    background-color: rgb(27, 62, 95);
+    height: 60px;
+}
+
+.header-text {
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 60px;
+    color: rgb(239, 171, 66);
+    font-size: 25px;
+}
+
+#welcome-text {
+    text-align: left;
+}
+
+#user-identity-text {
+    text-align: right;
+    font-size: 20px;
+    cursor: pointer;
+}

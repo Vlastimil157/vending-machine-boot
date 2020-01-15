@@ -1,14 +1,136 @@
-div.showing {
-    width: 80%;
-    margin: 20px auto;
-    border: 1px solid grey;
-    padding: 30px;
+#content {
+    background-color: rgb(245, 247, 249);
+    height: 100vh;
 }
 
-.even {
-    background-color: red;
+#app {
+    font-family: Georgia, serif;
 }
 
-.odd {
-    background-color: green;
+#header {
+    background-color: rgb(27, 62, 95);
+    height: 60px;
+}
+
+.header-text {
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 60px;
+    color: rgb(239, 171, 66);
+    font-size: 25px;
+}
+
+#welcome-text {
+    text-align: left;
+}
+
+#user-identity-text {
+    text-align: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#steps {
+    padding: 10px;
+}
+
+#login-message {
+    height: 33px;
+    width: 300px;
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-form {
+    width: 300px;
+    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.login-form-item {
+}
+
+#login-button {
+    width: 100px;
+}
+
+#product-list {
+    margin-top: 10px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.product-card {
+    height: 300px;
+    margin: 10px;
+}
+
+.product-image {
+    height: 284px;
+    width: 100%;
+    object-fit: scale-down;
+    text-align: center;
+    padding-right: 16px;
+    padding-bottom: 16px;
+}
+
+.product-name {
+    font-size: 30px;
+}
+
+.product-description {
+    color: rgb(162, 162, 162);
+    font-size: 18px;
+    font-style: normal;
+}
+
+.product-count {
+    color: rgb(184, 57, 57);
+    font-size: 15px;
+}
+
+.product-price {
+    color: rgb(33, 180, 119);
+    font-size: 18px;
+}
+
+.product-action {
+    display: inline;
+}
+
+.product-select {
+    /* width: 40px; */
+    /* This is set in html code. */
+}
+
+.product-calc {
+    color: rgb(27, 62, 95);
+    font-size: 18px;
+}
+
+.calc-sum-result {
+    color: rgb(255, 0, 0);
+    font-size: 18px;
+}
+
+.topic-apart {
+    height: 100%;
+    color: #515a6e;
+    font-size: 30px;
+}
+
+.calc-apart {
+    height: 100%;
+}
+
+.middle {
+    line-height: 100%;
+}
+
+.result-card {
+    margin: 10px;
+    height: 70px;
 }
