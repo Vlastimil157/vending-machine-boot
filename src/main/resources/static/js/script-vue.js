@@ -103,7 +103,7 @@ let app = new Vue({
                                         let color = this.discount_color[curr.type];
                                         this.globalDiscountState[curr.id] = {
                                             obj: curr,
-                                            style: this.getDiscountColor(`color: rgb(${color.r}, ${color.g}, ${color.b});`),
+                                            style: `color: rgb(${color.r}, ${color.g}, ${color.b});`,
                                             select: false,
                                         };
                                     })
@@ -175,6 +175,35 @@ let app = new Vue({
                     this.products[i] = data;
                 }
             })
+        },
+        handleAddAction: function(event) {
+            // let index = parseInt(event.target.getAttribute("name"));
+            let index = event.currentTarget.name;
+            console.log(this.products[index],index);
+            if (this.products[index].select < this.products[index].count) {
+                this.products[index].select++;
+            }
+        },
+        handleMinusAction: function(event) {
+            let index = event.currentTarget.name;
+            if (this.products[index].select > 0) {
+                this.products[index].select--;
+            } else this.products[index].select=0;
+            this.calcSingleProduct(this.products[index]);
+        },
+        handleInputAction: function(event) {
+            let index = event.currentTarget.name;
+            if (this.products[index].select > this.products[index].count) {
+                this.products[index].select = this.products[index].count;
+            } else if (this.products[index].select === null) this.products[index].select = 0;
+            else if (this.products[index].select * 10 % 10 !== 0) this.products[index].select = Math.floor(this.products[index].select);
+            this.calcSingleProduct(this.products[index]);
+        },
+        handleDiscountSingleChange: function(event) {
+            let index = event.currentTarget.name;
+            let d = this.discountsByProduct[this.products[index].id];
+            this.discountFlag[d.type] = !this.discountFlag[d.type];
+            this.calcSingleProduct(this.products[index]);
         }
     },
     computed: {
@@ -208,36 +237,37 @@ let app = new Vue({
             if (ret < 0) ret = 0;
             return ret;
         }
-    },
-    handlePay: function(data) {
-        this.pay.loading = true;
 
-        let requestBody = {
-            name: this.user.name,
-            password: this.pay.password,
-            cost: this.originalSum
-        }
-    
-        let responseBody = $.ajax({
-            url: "/pay-check",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(requestBody),
-            dataType: "json",
-            success: (data) => {
-                this.pay.success = true;
-                this.pay.error = false;
-                setTimeout(() => {
-                    this.current = 3;
-                }, 500);
-            },
-            error: (msg) => {
-                this.pay.error = true;
-                this.pay.success = false;
-                this.pay.loading = false;
-                console.log(msg);
-            }
-        });
     },
+    // handlePay: function(data) {
+    //     this.pay.loading = true;
+
+    //     let requestBody = {
+    //         name: this.user.name,
+    //         password: this.pay.password,
+    //         cost: this.originalSum
+    //     }
+    
+    //     let responseBody = $.ajax({
+    //         url: "/pay-check",
+    //         type: "POST",
+    //         contentType: "application/json",
+    //         data: JSON.stringify(requestBody),
+    //         dataType: "json",
+    //         success: (data) => {
+    //             this.pay.success = true;
+    //             this.pay.error = false;
+    //             setTimeout(() => {
+    //                 this.current = 3;
+    //             }, 500);
+    //         },
+    //         error: (msg) => {
+    //             this.pay.error = true;
+    //             this.pay.success = false;
+    //             this.pay.loading = false;
+    //             console.log(msg);
+    //         }
+    //     });
+    // },
 
 });

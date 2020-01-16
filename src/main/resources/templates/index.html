@@ -54,7 +54,7 @@
                 </Steps>
             </Header>
             <Content id="content">
-                <div v-show="current === 0">
+                <div v-if="current === 0">
                     <div id="login-message">
                         <Alert type="error" show-icon v-show="login.error">Username or Password Wrong!</Alert>
                         <Alert type="success" show-icon v-show="login.success">Login Success!</Alert>
@@ -78,15 +78,13 @@
                         </FormItem>
                     </i-form>
                 </div>
-                <div v-show="current === 1">
+                <div v-if="current === 1">
                     <list item-layout="vertical" split="true" id="product-list">
-                        <ListItem v-for="product in products" v-bind:key="product">
+                        <ListItem ref="products" v-for="(product, index) in products" v-bind:key="product.id">
+                            <div v-show="true" class="index">{{ index }}</div>
                             <Card class="product-card">
                                 <i-row type="flex" justify="center" :gutter="16">
                                     <i-col span="4" style="align-content: center;">
-                                        <!-- <img v-bind:src="'../static/img/' + product.name + '.jpg'"> -->
-                                        <!-- <img th:src="@{/img/HClO.jpg}"> -->
-                                        <!-- <img v-bind:src="require('../img/' + product.name + '.jpg')"> -->
                                         <img v-bind:src="product.img" class="product-image">
                                     </i-col>
                                     <i-col span="8">
@@ -94,11 +92,16 @@
                                         <div class="product-description">{{ product.description }}</div>
                                         <div class="product-count">Current Storage: {{ product.count }}</div>
                                         <div class="product-discount">
-                                            <CheckBox v-if="product.discountId !== null" v-bind:style="product.style" v-bind:disabled="!(!discountFlag[discountsByProduct[product.id].type] || (discountFlag[discountsByProduct[product.id].type] && product.discountSelect))"
-                                                v-model="product.discountSelect" border
-                                                @on-change="discountFlag[discountsByProduct[product.id].type] = !discountFlag[discountsByProduct[product.id].type]; calcSingleProduct(product);">
+                                            <CheckBox v-if="product.discountId !== null"
+                                                v-bind:style="product.style"
+                                                v-bind:disabled="!(!discountFlag[discountsByProduct[products[index].id].type] || (discountFlag[discountsByProduct[product.id].type] && product.discountSelect))"
+                                                v-model="products[index].discountSelect"
+                                                :name="index"
+                                                border
+                                                @on-change="handleDiscountSingleChange">
                                                 {{ product.discountText }}
                                             </CheckBox>
+
                                             <!-- <CheckBox v-bind:style="color: rgb(255, 0, 0)" v-bind:label="hi"></CheckBox> -->
                                             <!-- <CheckBox>Hi</CheckBox> -->
                                         </div>
@@ -108,24 +111,17 @@
                                     </i-col>
                                     <i-col span="6" class="product-action">
                                         <i-button type="primary" icon="ios-remove" shape="circle"
-                                            @click="if (product.select > 0) {
-                                                product.select--;
-                                            } else product.select=0;
-                                            calcSingleProduct(product);">
+                                            @click="handleMinusAction" :name="index">
                                         </i-button>
-                                        <i-input v-model="product.select" class="product-select" style="width: 100px"
-                                            @blur.native.capture="if (product.select > product.count) {
-                                                product.select = product.count;
-                                            } else if (product.select === null) product.select = 0;
-                                            else if (product.select * 10 % 10 !== 0) product.select = Math.floor(product.select);
-                                            calcSingleProduct(product);">
+                                        <i-input v-model="products[index].select" class="product-select" style="width: 100px"
+                                            @blur.native.capture="handleInputAction" :name="index">
                                         </i-input>
                                         <i-button type="primary" icon="ios-add" shape="circle"
-                                            @click="if (product.select < product.count) {product.select++;} calcSingleProduct(product);">
+                                            @click="handleAddAction" :name="index">
                                         </i-button>
                                     </i-col>
                                     <i-col span="3" class="product-calc">
-                                        <div class="calc-result" v-bind:key="product.calc">Total Cost:
+                                        <div class="calc-result" v-bind:key="products[index].id">Total Cost:
                                             ￥{{ product.calc }}</div>
                                     </i-col>
                                 </i-row>
@@ -143,21 +139,21 @@
                                 </i-row>
                             </Card>
                         </ListItem>
-                        <ListItem>
-                            <i-button @click="this.current = 2" v-model:disable="login.">Pay</i-button>
-                        </ListItem>
-
                         <!-- <ListItem>
+                            <i-button @click="this.current = 2" v-model:disable="login.">Pay</i-button>
+                        </ListItem> -->
+
+                        <ListItem>
                             <Card class="result-card">
                                 <i-row type="flex" justify="center" :gutter="16">
                                     <i-col span="8" offset="4" class="topic-apart">
                                         <List>
-                                            <ListItem v-for="discount in discountsGlobal" v-bind:key="discount">
-                                                <CheckBox v-bind:style="globalDiscountState[discount.id].style"
-                                                    v-bind:disabled="!(!discountFlag[discount.type] || (discountFlag[discount.type] && globalDiscountState[discount.id].select))"
-                                                    v-model="globalDiscountState[discount.id].select" border
-                                                    @on-change="discountFlag[discount.type] = !discountFlag[discount.type]">
-                                                    {{ product.discountText }}
+                                            <ListItem v-for="(discount, index) in discountsGlobal" v-bind:key="discount.id">
+                                                <CheckBox v-bind:style="globalDiscountState[discountsGlobal[index].id].style"
+                                                    v-bind:disabled="!(!discountFlag[discountsGlobal[index].type] || (discountFlag[discountsGlobal[index].type] && globalDiscountState[discount.id].select))"
+                                                    v-model="globalDiscountState[discountsGlobal[index].id].select" border
+                                                    @on-change="discountFlag[discountsGlobal[index].type] = !discountFlag[discountsGlobal[index].type]">
+                                                    {{ products[index].discountText }}
                                                 </CheckBox>
                                             </ListItem>
                                         </List>
@@ -167,10 +163,10 @@
                                     </i-col>
                                 </i-row>
                             </Card>
-                        </ListItem> -->
+                        </ListItem>
                     </list>
                 </div>
-                <div v-show="current === 2">
+                <!-- <div v-show="current === 2">
                     <div id="login-message">
                         <Alert type="error" show-icon v-show="pay.error">Password Wrong!</Alert>
                         <Alert type="success" show-icon v-show="pay.success">Payment Success!</Alert>
@@ -192,7 +188,7 @@
                     <div>
                         Thank you!
                     </div>
-                </div>
+                </div> -->
             </Content>
         </Layout>
     </div>
